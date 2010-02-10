@@ -1,0 +1,8 @@
+# Hide all hidden files
+.*
+
+# Hide the NetBeans project
+/nbproject/
+
+# Not this file
+!.gitignore
