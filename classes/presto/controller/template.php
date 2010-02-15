@@ -21,6 +21,11 @@ class Presto_Controller_Template extends Kohana_Controller
 	public $auto_render = TRUE;
 
 	/**
+	 * @var boolean	auto render the view?
+	 */
+	public $auto_render_view = TRUE;
+
+	/**
 	 * @var	array	CSS files
 	 */
 	public $css = array();
@@ -49,7 +54,10 @@ class Presto_Controller_Template extends Kohana_Controller
 		{
 			// Load the template
 			$this->template = View::factory($this->template);
+		}
 
+		if( $this->auto_render_view === TRUE )
+		{
 			// Load the view automagically
 			$this->view = View::factory( $this->request->action );
 		}
