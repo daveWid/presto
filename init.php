@@ -4,6 +4,6 @@
 Route::set('presto/media', 'media(/<file>)', array('file' => '.+'))
 	->defaults(array(
 		'controller' => 'presto_media',
-		'action'     => 'load',
+		'action'     => 'index',
 		'file'       => NULL,
 	));
