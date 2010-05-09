@@ -6,7 +6,7 @@
  * @author	Dave Widmer
  * @copyright	2010 © Dave Widmer
  */
-class Presto_Controller_Template extends Kohana_Controller
+class Controller_Presto_Template extends Kohana_Controller
 {
 	/** @var  string/View	Page template */
 	public $template = 'template';

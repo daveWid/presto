@@ -6,12 +6,12 @@
  * @author	Dave Widmer
  * @copyright	2010 © Dave Widmer
  */
-class Presto_Controller_Media extends Kohana_Controller
+class Controller_Presto_Media extends Kohana_Controller
 {
 	/**
 	 * Loading of media files.
 	 */
-	public function action_load()
+	public function action_index()
 	{
 		// Get the file path from the request
 		$file = $this->request->param('file');
