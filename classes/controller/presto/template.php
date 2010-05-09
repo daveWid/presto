@@ -47,10 +47,12 @@ class Controller_Presto_Template extends Kohana_Controller
 		if ($this->auto_render === TRUE)
 		{
 			// Add in the css, js, title and view
-			$this->template->set('css', $this->css)
-				->set('js', $this->js)
-				->set('title', $this->title)
-				->set('content', $this->content);
+			$this->template->set( array(
+				'css' => $this->css,
+				'js' => $this->js,
+				'title' => $this->title,
+				'content' => $this->content,
+			));
 
 			// Render the response
 			$this->request->response = $this->template;
