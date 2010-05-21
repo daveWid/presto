@@ -42,6 +42,7 @@ class Model_Crud extends Kohana_Model
 		return DB::select()
 				->from($this->table)
 				->where($this->primary, '=', $key)
+				->as_object()
 				->execute();
 	}
 
