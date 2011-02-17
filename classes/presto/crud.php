@@ -3,7 +3,7 @@
 /**
  * Provides basic CRUD functionality.
  *
- * @package		presto
+ * @package		Presto
  * @author		Dave Widmer
  * @copyright	2011 © Dave Widmer
  */
