@@ -8,7 +8,7 @@
  * @author		Dave Widmer
  * @copyright	2011 © Dave Widmer
  */
-class Controller_Presto_Template extends Kohana_Controller_Template
+class Presto_Controller_Template extends Kohana_Controller_Template
 {
 	/**
 	 * @var string	Page title
