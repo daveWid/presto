@@ -1,20 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta charset="utf-8" />
-<title><?php echo $title; ?></title>
+	<title><?php echo $title; ?></title>
+
+	<!-- Metadata -->
+<?php foreach($meta as $key => $value) echo "\t", "<meta", HTML::attributes(array($key => $value)), ">\r"; ?>
+
 
 	<!-- CSS -->
-<?php foreach($css as $file => $media) echo "\t",  HTML::style($file, array('media' => $media)), "\r"; ?>
+<?php foreach($css as $file => $type) echo "\t", HTML::style($file, array("type" => $type)), "\r"; ?>
 
-	<!-- JS -->
-<?php foreach($js as $file) echo "\t",  HTML::script($file), "\r"; ?>
 
-<!--[if IE]><script src="/media/js/html5.js"></script><![endif]-->
+	<!-- JavaScript -->
+<?php foreach($js as $src) echo "\t", HTML::script($src), "\r"; ?>
+
+
 </head>
-<body>
 
-<?php echo $content; ?>
+<body>
+	<!-- Header -->
+	<header>
+
+	</header>
+
+	<div id="content">
+		<?php echo $content, "\r"; ?>
+	</div>
+
+	<!-- Footer -->
+	<footer>
+
+	</footer>
 
 </body>
 </html>
