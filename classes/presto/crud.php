@@ -1,11 +1,13 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+
 /**
- * The C(reate) R(ead) U(pdate) D(elete) Model.
+ * Provides basic CRUD functionality.
  *
- * @package	preston
- * @author	Dave Widmer
+ * @package		presto
+ * @author		Dave Widmer
+ * @copyright	2011 © Dave Widmer
  */
-class Model_Crud extends Kohana_Model
+class Presto_Crud extends Kohana_Model
 {
 	/**
 	 * @var	String	The Database table name
