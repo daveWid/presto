@@ -5,7 +5,7 @@
 	foreach($links as $uri => $title)
 	{
 		echo "\t\t\t", "<li>", HTML::anchor($uri, $title, array(
-			"class" => ($uri == $action) ? "active" : ""
+			"class" => ($uri == $active) ? "active" : ""
 		)), "</li>\r";
 	}
 ?>
