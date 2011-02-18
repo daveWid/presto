@@ -35,7 +35,7 @@ class Presto_Controller_Template extends Kohana_Controller_Template
 	 *
 	 * @var array
 	 */
-	public $meta = array("charset" => "utf-8");
+	public $meta = array();
 
 	/**
 	 * @var View	The view for the content

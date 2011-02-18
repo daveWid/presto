@@ -4,7 +4,8 @@
 	<title><?php echo $title; ?></title>
 
 	<!-- Metadata -->
-<?php foreach($meta as $key => $value) echo "\t", "<meta", HTML::attributes(array($key => $value)), ">\r"; ?>
+	<meta charset="<?php echo Kohana::$charset; ?>">
+<?php foreach($meta as $key => $value) echo "\t", "<meta", HTML::attributes(array("name" => $key, "content" => $value)), ">\r"; ?>
 
 
 	<!-- CSS -->
