@@ -7,7 +7,7 @@
  * @author		Dave Widmer
  * @copyright	2011 © Dave Widmer
  */
-class Presto_Crud extends Kohana_Model
+class Presto_Model_Crud extends Model
 {
 	/**
 	 * @var	String	The Database table name
