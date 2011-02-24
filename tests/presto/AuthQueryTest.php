@@ -46,9 +46,10 @@ class Presto_AuthQueryTest extends Kohana_Unittest_Database_TestCase
 	/**
 	 * Tests to make sure the isn't a user automatically.
 	 */
-	public function test_no_login_on_creation()
+	public function test_empty_on_init()
 	{
 		$this->assertFalse($this->auth->logged_in());
+		$this->assertNull($this->auth->get_user());
 	}
 
 	/**
