@@ -70,7 +70,7 @@ class Kohana_Auth_Query extends Kohana_Auth
 
 		if ($role === null)
 		{
-			return $user;
+			return true;
 		}
 		else
 		{
