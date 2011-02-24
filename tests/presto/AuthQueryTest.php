@@ -40,7 +40,7 @@ class Presto_AuthQueryTest extends Kohana_Unittest_Database_TestCase
 	 */
 	public function getDataSet()
 	{
-		return new PHPUnit_Extensions_Database_DataSet_XmlDataSet(dirname(__FILE__) . '/../data/AuthQuery.xml');
+		return new PHPUnit_Extensions_Database_DataSet_XmlDataSet(dirname(__FILE__) . '/../data/Users.xml');
 	}
 
 	/**
