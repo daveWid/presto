@@ -14,15 +14,17 @@ class Presto_Bouncer
 	public static $admin_role = 'admin';
 
 	/**
-	 * Checks to see if the user is allowed.
+	 * Checks to see if a user is allowed access to a resource with an
+	 * access control list as an array with the array keys being the name
+	 * of the action to control. A missing key will result in no check and
+	 * with an array of roles, a user must have all roles to be granted access.
 	 *
 	 * @param	array	$acl		The access control list
 	 * @param	string	$action		The action to test against, if none given
 	 *								Request::$current->action() is used
 	 * @return	boolean			Does the user have access?
-	 * @throws	Kohana_Exception
 	 */
-	public static function check(array $acl, $action = null)
+	public static function acl(array $acl, $action = null)
 	{
 		$action = ($action !== null) ? $action : Request::$current->action();
 
@@ -47,8 +49,40 @@ class Presto_Bouncer
 
 		// User logged in and not an admin
 		// So lets check for access...
-		$roles = $acl[$action];
+		$roles = self::normalize_roles($acl[$action]);
+		return self::check_roles($roles, $user->roles);
+	}
 
+	/**
+	 * Checks to make sure the user has a given role.
+	 * This is useful when you don't want to create a full acl and just want
+	 * a specific role to pass along (e.g. admin panel)
+	 *
+	 * @param	mixed	$role	The role (or array of roles) to check for
+	 */
+	public static function role($role)
+	{
+		// User not logged in
+		$user = Auth::instance()->get_user(false);
+		if ($user === false)
+		{
+			return false;
+		}
+
+		// Logged in, check for the role
+		$roles = self::normalize_roles($role);
+		return self::check_roles($roles, $user->roles);
+	}
+
+	/**
+	 * Normalize the roles into an array
+	 *
+	 * @param	mixed	$roles	The roles to check.
+	 * @return	array		The roles in array format
+	 * @throws	Kohana_Exception
+	 */
+	protected static function normalize_roles($roles)
+	{
 		// Make sure the roles are a string or array
 		if ( ! is_string($roles) && ! is_array($roles))
 		{
@@ -61,18 +95,28 @@ class Presto_Bouncer
 			$roles = array($roles);
 		}
 
-		// Iterate through the roles and make sure they are all in there...
+		return $roles;
+	}
+
+	/**
+	 * Checks the roles to check against the users roles.
+	 *
+	 * @param	array	$check	The roles to check for
+	 * @param	array	$user	The roles the user has
+	 * @return	boolean		Passed the check?
+	 */
+	protected static function check_roles($check, $user)
+	{
 		$access = true;
-		foreach ($roles as $role)
+		foreach ($check as $role)
 		{
-			if ( ! in_array($role, $user->roles))
+			if ( ! in_array($role, $user))
 			{
 				$access = false;
 				break;
 			}
 		}
 
-		// If you made it through you are golden
 		return $access;
 	}
 

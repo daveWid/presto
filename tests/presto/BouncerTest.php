@@ -58,50 +58,70 @@ class Presto_BouncerTest extends Kohana_Unittest_Database_TestCase
 	/**
 	 * Tests to make sure that if the action doesn't have a rule it defaults to true
 	 */
-	public function test_no_access_rule_is_true()
+	public function test_acl_no_access_rule_is_true()
 	{
-		$this->assertTrue(Bouncer::check($this->acl, 'index'));
+		$this->assertTrue(Bouncer::acl($this->acl, 'index'));
 	}
 
 	/**
 	 * Makes sure that if a user isn't logged in and there is an access role
 	 * listed that it is false
 	 */
-	public function test_not_logged_in_with_access_rule_is_false()
+	public function test_acl_not_logged_in_with_access_rule_is_false()
 	{
-		$this->assertFalse(Bouncer::check($this->acl, 'edit'));
+		$this->assertFalse(Bouncer::acl($this->acl, 'edit'));
 	}
 
 	/**
 	 * Runs a login on the test data
 	 */
-	public function test_if_admin_always_true()
+	public function test_acl_if_admin_always_true()
 	{
 		$this->login(); // User is login and admin.
-		$this->assertTrue(Bouncer::check($this->acl, 'edit'));
+		$this->assertTrue(Bouncer::acl($this->acl, 'edit'));
 	}
 
 	/**
 	 * Double check the user has the properties is should have
 	 */
-	public function test_login_role()
+	public function test_acl_login_role()
 	{
 		$this->remove_admin();
 		$user = $this->auth->get_user(); // Now user is only login...
 
-		$this->assertTrue(Bouncer::check($this->acl, 'edit'));
-		$this->assertFalse(Bouncer::check($this->acl, 'delete'));
-		$this->assertFalse(Bouncer::check($this->acl, 'review')); // has login, but not reviewer
+		$this->assertTrue(Bouncer::acl($this->acl, 'edit'));
+		$this->assertFalse(Bouncer::acl($this->acl, 'delete'));
+		$this->assertFalse(Bouncer::acl($this->acl, 'review')); // has login, but not reviewer
 	}
 
 	/**
 	 * Tests that a role that isn't a string or array throws an exception
 	 * @expectedException Kohana_Exception
 	 */
-	public function test_incorrect_role_throws_exception()
+	public function test_acl_incorrect_role_throws_exception()
 	{
 		$this->remove_admin();
-		Bouncer::check(array('fail' => null), 'fail');
+		Bouncer::acl(array('fail' => null), 'fail');
+	}
+
+	/**
+	 * Tests the role function when the user isn't logged in.
+	 */
+	public function test_role_not_logged_in()
+	{
+		$this->assertFalse(Bouncer::role('login'));
+	}
+
+	/**
+	 * Tests a role to see if the user has it
+	 */
+	public function test_role_function()
+	{
+		$this->login();
+		$this->assertTrue(Bouncer::role('admin'));
+		$this->assertTrue(Bouncer::role(array('admin','login')));
+		$this->assertFalse(Bouncer::role('fake'));
+		$this->assertFalse(Bouncer::role(array('admin','fake')));
 	}
 
 	/**
