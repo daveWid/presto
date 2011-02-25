@@ -76,14 +76,14 @@ class Kohana_Auth_Query extends Kohana_Auth
 		{
 			if(is_string($role))
 			{
-				return in_array($role, $user->Roles); // just one role
+				return in_array($role, $user->roles); // just one role
 			}
 			else
 			{
 				$good = true;
 				foreach($role as $r) // Loop through a list of roles
 				{
-					if ( ! in_array($r, $user->Roles))
+					if ( ! in_array($r, $user->roles))
 					{
 						$good = false;
 						break;

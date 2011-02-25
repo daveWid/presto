@@ -71,9 +71,9 @@ class Presto_AuthQueryTest extends Kohana_Unittest_Database_TestCase
 		$user = $this->auth->get_user();
 
 		$this->assertType('stdClass', $user);
-		$this->assertObjectHasAttribute('UserID', $user);
-		$this->assertObjectHasAttribute('Email', $user);
-		$this->assertObjectHasAttribute('Roles', $user);
+		$this->assertObjectHasAttribute('user_id', $user);
+		$this->assertObjectHasAttribute('email', $user);
+		$this->assertObjectHasAttribute('roles', $user);
 	}
 
 	/**

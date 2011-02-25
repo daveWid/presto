@@ -17,6 +17,6 @@ class Presto_Model_Role extends Model_Crud
 	/**
 	 * @var String	The primary key.
 	 */
-	public $primary = "RoleID";
+	public $primary = "role_id";
 
 }

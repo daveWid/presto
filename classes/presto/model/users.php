@@ -17,7 +17,7 @@ class Presto_Model_Users extends Model_Crud
 	/**
 	 * @var String	The primary key.
 	 */
-	public $primary = "UserID";
+	public $primary = "user_id";
 
 	/**
 	 * Attempts to login a user.
@@ -28,20 +28,20 @@ class Presto_Model_Users extends Model_Crud
 	 */
 	public function login($email, $pass)
 	{
-		$user = DB::select('UserID','Email',DB::expr('GROUP_CONCAT(`Roles`.`Name`) AS `Roles`'))
+		$user = DB::select('user_id','email',DB::expr('GROUP_CONCAT(`Roles`.`Name`) AS `roles`'))
 			->from($this->table)
-			->where('Email', '=', $email)
-			->where('Password', '=', $pass)
-			->join('UserRoles')->using('UserID')
-			->join('Roles')->using('RoleID')
-			->group_by('UserID')
+			->where('email', '=', $email)
+			->where('password', '=', $pass)
+			->join('UserRoles')->using('user_id')
+			->join('Roles')->using('role_id')
+			->group_by('user_id')
 			->as_object()
 			->execute();
 
 		if (count($user) == 1)
 		{
 			$current = $user->current();
-			$current->Roles = explode(",", $current->Roles);
+			$current->roles = explode(",", $current->roles);
 			return $current;
 		}
 		else
