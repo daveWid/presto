@@ -42,14 +42,9 @@ class Presto_Message
 	{
 		$this->type = $type;
 
-		if ($message == "")
-		{
-			$message = null;
-		}
-
-		$this->message = (is_array($message) || $message === null) ?
-			$message :
-			array($message);
+		$this->message = (is_string($message) && $message !== "") ?
+			array($message) :
+			$message ;
 	}
 
 	/**

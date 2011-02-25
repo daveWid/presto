@@ -73,6 +73,7 @@ class Presto_Model_Users extends Model_Crud
 		{
 			$current = $user->current();
 			$current->roles = explode(",", $current->roles);
+			$current->user_id = (int) $current->user_id;
 			return $current;
 		}
 		else

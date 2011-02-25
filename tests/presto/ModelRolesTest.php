@@ -55,9 +55,9 @@ class Presto_ModelRolesTest extends Kohana_Unittest_Database_TestCase
 		$login = $this->model->read(2);
 		$admin = $this->model->read(3);
 
-		$this->assertEquals('guest', $guest->name);
-		$this->assertEquals('login', $login->name);
-		$this->assertEquals('admin', $admin->name);
+		$this->assertSame('guest', $guest->name);
+		$this->assertSame('login', $login->name);
+		$this->assertSame('admin', $admin->name);
 	}
 
 	/**
@@ -78,8 +78,8 @@ class Presto_ModelRolesTest extends Kohana_Unittest_Database_TestCase
 		));
 		$role = $this->model->read(1);
 
-		$this->assertEquals(1, $affected);
-		$this->assertEquals('testing', $role->name);
+		$this->assertSame(1, $affected);
+		$this->assertSame('testing', $role->name);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Presto_ModelRolesTest extends Kohana_Unittest_Database_TestCase
 	public function test_delete()
 	{
 		$affected = $this->model->delete(1);
-		$this->assertEquals(1, $affected);
+		$this->assertSame(1, $affected);
 	}
 
 }

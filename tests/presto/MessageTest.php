@@ -68,12 +68,28 @@ class Presto_MessageTest extends Kohana_Unittest_TestCase
 		Message::notice("This is only a test!");
 		$msg = Message::get();
 		$this->assertTrue(is_array($msg->message));
-		$this->assertEquals(1, count($msg->message));
+		$this->assertSame(1, count($msg->message));
 
 		Message::notice(array("This is only a test!", "with a second message"));
 		$msg = Message::get();
 		$this->assertTrue(is_array($msg->message));
 		$this->assertEquals(2, count($msg->message));
+	}
+
+	/**
+	 * Tests to make sure that "" or null messages keep their types
+	 */
+	public function test_empty_null_message()
+	{
+		Message::success("");
+		$msg = Message::get();
+		$this->assertSame("", $msg->message);
+
+		Message::success(null);
+		$msg = Message::get();
+		$this->assertNull($msg->message);
+
+		$this->assertSame("", Message::render());
 	}
 
 	/**

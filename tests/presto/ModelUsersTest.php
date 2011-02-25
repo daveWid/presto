@@ -42,8 +42,8 @@ class Presto_ModelUsersTest extends Kohana_Unittest_Database_TestCase
 			'password' => 'justabunchofrandomstuff'
 		));
 
-		$this->assertEquals(2, $id);
-		$this->assertEquals(1, $affected);
+		$this->assertSame(2, $id);
+		$this->assertSame(1, $affected);
 	}
 
 	/**
@@ -53,9 +53,9 @@ class Presto_ModelUsersTest extends Kohana_Unittest_Database_TestCase
 	{
 		$user = $this->model->read(1);
 
-		$this->assertEquals(1, $user->user_id);
-		$this->assertEquals('dave@davewidmer.net', $user->email);
-		$this->assertEquals(array('login','admin'), $user->roles);
+		$this->assertSame(1, $user->user_id);
+		$this->assertSame('dave@davewidmer.net', $user->email);
+		$this->assertSame(array('login','admin'), $user->roles);
 	}
 
 	/**
@@ -76,8 +76,8 @@ class Presto_ModelUsersTest extends Kohana_Unittest_Database_TestCase
 		));
 		$user = $this->model->read(1);
 
-		$this->assertEquals(1, $affected);
-		$this->assertEquals('dave2@davewidmer.net', $user->email);
+		$this->assertSame(1, $affected);
+		$this->assertSame('dave2@davewidmer.net', $user->email);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Presto_ModelUsersTest extends Kohana_Unittest_Database_TestCase
 	public function test_delete()
 	{
 		$affected = $this->model->delete(1);
-		$this->assertEquals(1, $affected);
+		$this->assertSame(1, $affected);
 	}
 
 }
