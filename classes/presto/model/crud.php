@@ -37,15 +37,17 @@ class Presto_Model_Crud extends Model
 	 * Gets the record given the primary key.
 	 *
 	 * @param	mixed	The primary key
-	 * @return	Database_Result
+	 * @return	Object	The database result as an stdClass or false
 	 */
 	public function read($key)
 	{
-		return DB::select()
-				->from($this->table)
-				->where($this->primary, '=', $key)
-				->as_object()
-				->execute();
+		$result = DB::select()
+			->from($this->table)
+			->where($this->primary, '=', $key)
+			->as_object()
+			->execute();
+
+		return (count($result) == 1) ? $result->current() : false;
 	}
 
 	/**

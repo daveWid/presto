@@ -89,6 +89,25 @@ class Presto_AuthQueryTest extends Kohana_Unittest_Database_TestCase
 		$this->assertTrue($this->auth->logged_in(array('admin','login')));
 		$this->assertFalse($this->auth->logged_in(array('guest','madeuprole')));
 	}
+
+	/**
+	 * Tests to make sure the password() function throws an exception
+	 * @expectedException Kohana_Exception
+	 */
+	public function test_password_throws_exception()
+	{
+		$this->auth->password('dave@davewidmer.net');
+	}
+
+	/**
+	 * Tests to make sure the check_password() function throws an exception
+	 * @expectedException Kohana_Exception
+	 */
+	public function test_check_password_throws_exception()
+	{
+		$this->login();
+		$this->auth->check_password('dave');
+	}
 	
 	/**
 	 * Check that the logout works correctly.

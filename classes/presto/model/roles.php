@@ -7,7 +7,7 @@
  * @author		Dave Widmer
  * @copyright	2011 © Dave Widmer
  */
-class Presto_Model_Role extends Model_Crud
+class Presto_Model_Roles extends Model_Crud
 {
 	/**
 	 * @var	String	The Database table name
