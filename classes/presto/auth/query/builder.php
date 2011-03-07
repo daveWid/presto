@@ -7,7 +7,7 @@
  * @author		Dave Widmer
  * @copyright	2011 © Dave Widmer
  */
-class Kohana_Auth_Query extends Kohana_Auth
+class Presto_Auth_Query_Builder extends Kohana_Auth
 {
 	/**
 	 * Does the user login.
@@ -24,6 +24,31 @@ class Kohana_Auth_Query extends Kohana_Auth
 		return ($user !== false) ?
 			$this->complete_login($user) :
 			false ;
+	}
+
+	/**
+	 * Changing the default hashing method to use Bonafide instead.
+	 *
+	 * @param	string	$str	The string to hash
+	 * @return	string		The hashed password
+	 */
+	public function hash($str)
+	{
+		$bona = Bonafide::instance();
+		return $bona->hash($str, $this->generate_salt($str));
+	}
+
+	/**
+	 * Generates a predictable (but different for each user) salt to use
+	 * for hashing.
+	 * A salt for bcrypt is 
+	 *
+	 * @param	string	$str	The string to help with generating a salt
+	 * @return	string		The salt 
+	 */
+	protected function generate_salt($str)
+	{
+		
 	}
 
 	/**
