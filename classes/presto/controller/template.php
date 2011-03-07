@@ -43,21 +43,23 @@ class Presto_Controller_Template extends Kohana_Controller_Template
 	public $content;
 
 	/**
-	 * Adss variables to the template before it renders
+	 * Binds some variables to the template.
 	 */
-	public function after()
+	public function before()
 	{
+		$before = parent::before();
+
 		if ($this->auto_render === TRUE)
 		{
 			$vars = array("title", "js", "css", "meta", "content");
 
-			foreach ($vars as $key)
+			foreach ($vars as $name)
 			{
-				$this->template->set($key, $this->{$key});
+				$this->template->bind($name, $this->$name);
 			}
 		}
 
-		return parent::after();
+		return $before;
 	}
 
 }
