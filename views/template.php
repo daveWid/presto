@@ -9,13 +9,15 @@
 
 
 	<!-- CSS -->
-<?php foreach($css as $file => $type) echo "\t", HTML::style($file, array("type" => $type)), "\r"; ?>
+<?php foreach($css as $file => $media) echo "\t", HTML::style($file, array("media" => $media)), "\r"; ?>
 
 
 	<!-- JavaScript -->
 <?php foreach($js as $src) echo "\t", HTML::script($src), "\r"; ?>
 
-
+	<!--[if lt IE 9]>
+	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body>
