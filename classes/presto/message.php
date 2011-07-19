@@ -15,6 +15,7 @@ class Presto_Message
 	const NOTICE = "notice";
 	const SUCCESS = "success";
 	const WARN = "warn";
+	const INFO = "info";
 
 	/** The name of the session variable. */
 	public static $name = "flash_message";
@@ -148,6 +149,17 @@ class Presto_Message
 	public static function warn($message)
 	{
 		self::set(Message::WARN, $message);
+	}
+
+	/**
+	 * Sets an infor message.
+	 *
+	 * @param	mixed	String/Array for the message(s)
+	 * @return	void
+	 */
+	public static function info($message)
+	{
+		self::set(Message::INFO, $message);
 	}
 
 }
