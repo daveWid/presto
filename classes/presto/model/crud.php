@@ -157,15 +157,21 @@ abstract class Presto_Model_Crud extends Model
 	 *		));
 	 *
 	 * @param	array	Additional parameters to inject into the query.
+	 * @param	DB_Query	A Database query that has already been started
 	 * @return	Database_Result
 	 */
-	public function fetch(array $params)
+	public function fetch(array $params = array(), $query = null)
 	{
-		$query = DB::select()->from($this->table)->order_by($this->primary, Arr::get($params, 'dir', 'DESC'));
+		if ($query === null)
+		{
+			$query = DB::select()->from($this->table);
+		}
+
+		$query = $query->order_by($this->primary, Arr::get($params, 'dir', 'DESC'));
 
 		// Check to see if only a number of posts are requested, or all...
 		$limit = Arr::get($params, 'limit', null);
-		if ($num !== null)
+		if ($limit !== null)
 		{
 			$query = $query->limit($limit)->offset(Arr::get($params, 'offset', 0));
 		}

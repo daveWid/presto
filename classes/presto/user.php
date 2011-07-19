@@ -21,10 +21,13 @@ class Presto_User
 	 */
 	public function __construct(array $params)
 	{
-		foreach ($params as $key => $value)
-		{
-			$this->set($name, $value);
-		}
+		$this->params = $params;
+
+		$roles = $this->get('roles');
+        if ( ! is_array($roles))
+        {
+            $this->set('roles', explode(",", $roles));
+        }
 	}
 
 	/**
@@ -54,11 +57,11 @@ class Presto_User
 	 * @param	mixed	A role or array of roles
 	 * @return	boolean
 	 */
-	public function has_role($role)
+	public function has_role($roles)
 	{
-		if ( ! is_array($role))
+		if ( ! is_array($roles))
 		{
-			$role = array((string) $role);
+			$roles = array((string) $roles);
 		}
 
 		$good = true;
@@ -91,6 +94,17 @@ class Presto_User
 	}
 
 	/**
+	 * The magic "getter".
+	 *
+	 * @param	string	The name of the property to fetch
+	 * @return	mixed	The value
+	 */
+	public function __get($name)
+	{
+		return $this->get($name, null);
+	}
+
+	/**
 	 * A setter method.
 	 *
 	 *		$user->set('roles', array('admin','guest'));
@@ -101,6 +115,17 @@ class Presto_User
 	public function set($name, $value)
 	{
 		$this->params[$name] = $value;
+	}
+
+	/**
+	 * The magic "setter".
+	 *
+	 * @param	string	The name of the property
+	 * @param	mixed	The value to set
+	 */
+	public function __set($name, $value)
+	{
+		return $this->set($name, $value);
 	}
 
 } // End Presto_User
