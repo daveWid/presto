@@ -62,4 +62,20 @@ class Presto_Controller_Template extends Kohana_Controller_Template
 		return $before;
 	}
 
+	/**
+	 * Checks to see if the request was ajax
+	 */
+	public function after()
+	{
+		if ($this->request->is_ajax())
+		{
+			$this->auto_render = false;
+			$this->response->headers(array(
+				'Content-Type' => 'application/json'
+			))->body(json_encode($this->content));
+		}
+
+		return parent::after();
+	}
+
 }
