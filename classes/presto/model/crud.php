@@ -7,7 +7,7 @@
  * @author		Dave Widmer
  * @copyright	2011 © Dave Widmer
  */
-class Presto_Model_Crud extends Model
+abstract class Presto_Model_Crud extends Model
 {
 	/**
 	 * @var	String	The Database table name
@@ -25,7 +25,7 @@ class Presto_Model_Crud extends Model
 	public $validation = null;
 
 	/**
-	 * @var Boolean	Has the validation been passed yet?
+	 * @var boolean	Has the validation been passed yet?
 	 */
 	protected $validation_passed = false;
 
@@ -37,6 +37,12 @@ class Presto_Model_Crud extends Model
 	/**
 	 * Inserts a new row.
 	 * Data is automatically filtered and checked for validation.
+	 *
+	 *		$model = new Model_Users;
+	 *		list($id, $num) = $model->create($data);
+	 *
+	 *		// Or
+	 *		list($id, $num) = Model::factory('users')->create($data);
 	 *
 	 * @param	array	The data to insert
 	 * @return	array	Insert ID and Affected Rows
@@ -60,6 +66,8 @@ class Presto_Model_Crud extends Model
 	/**
 	 * Gets the record given the primary key.
 	 *
+	 *		$row = $model->read($key);
+	 *
 	 * @param	mixed	The primary key
 	 * @return	Object	The database result as an stdClass or false
 	 */
@@ -77,8 +85,15 @@ class Presto_Model_Crud extends Model
 	/**
 	 * Updates the record with the given primary key.
 	 *
-	 * The data must be validated before it is updated.
+	 * By default all updated data must be validated, but this can be changed
+	 * with the third parameter.
+	 *
 	 * This function will also automatically filter the data.
+	 *
+	 *		$num = $model->update($key, $data);
+	 *
+	 *		// Remove Validation
+	 *		$num = $model->update($key, $data, false);
 	 *
 	 * @param	mixed	Primary key
 	 * @param	array	Data to update
@@ -104,6 +119,8 @@ class Presto_Model_Crud extends Model
 	/**
 	 * Deletes a record from the database.
 	 *
+	 *		$num = $model->delete($key);
+	 *
 	 * @param	mixed	Primary key value
 	 * @return	int		Affected rows
 	 */
@@ -117,12 +134,27 @@ class Presto_Model_Crud extends Model
 	/**
 	 * Fetches rows.
 	 *
+	 * Below are the additional parameters that can be set. The where
+	 * param should follow the where clause in the Datbase class as either
+	 * a single array, or an array of arrays.
+	 *
 	 * Param  | Description                  | Default
 	 * -------|------------------------------|-------
 	 * dir    | The direction to sort on     | DESC
 	 * limit  | The number of rows to return | null (all rows)
 	 * offset | The db offset                | 0
 	 * where  | Additional where params      | null
+	 *
+	 *		// Grabs all the rows, latest first
+	 *		$rows = $model->fetch();
+	 *
+	 *		// Grabs 20 rows, starting at the 20th row, earliest first where status is 1
+	 *		$rows = $model->fetch(array(
+	 *			'dir' => 'ASC',
+	 *			'num' => 20,
+	 *			'offset' => 20,
+	 *			'where' => array('status', '=', 1),
+	 *		));
 	 *
 	 * @param	array	Additional parameters to inject into the query.
 	 * @return	Database_Result
@@ -157,7 +189,20 @@ class Presto_Model_Crud extends Model
 	}
 
 	/**
-	 * Checks to see if the passed in data
+	 * Checks to see if the passed in data. This will be run automatically in
+	 * all create statement and updates by default. You can remove the update 
+	 * validation checking by passing in false as the 3rd param.
+	 *
+	 *		if ($model->validate($_POST))
+	 *		{
+	 *			// Save data
+	 *			// $model->create($_POST);
+	 *		}
+	 *		else
+	 *		{
+	 *			// Show errors
+	 *			// $model->validation->errrors('message_file')
+	 *		}
 	 *
 	 * @param	array	The data to validate against.
 	 * @return	boolean	Validation success
@@ -176,7 +221,13 @@ class Presto_Model_Crud extends Model
 	}
 
 	/**
-	 * Runs through the data and makes sure there isn't any data that shouldn't be there.
+	 * Runs through the data and makes sure there isn't any data that
+	 * shouldn't be there.
+	 *
+	 * This function is run automatically before any data is added/updated.
+	 *
+	 * If you are getting unexpected results, make sure to look at your $fields
+	 * variable.
 	 *
 	 * @param	array	The data to filter
 	 * @return	array	The filtered array
@@ -199,12 +250,11 @@ class Presto_Model_Crud extends Model
 	/**
 	 * Takes a validation object and adds in the appropriate rules for the model.
 	 *
+	 * Add all specific func
+	 *
 	 * @param	Validation	A validation object
 	 * @return	Validation	The validtion object with the rules added
 	 */
-	protected function validation_rules(Validation $valid)
-	{
-		return $valid; // In extended classes add more rules...
-	}
+	abstract protected function validation_rules(Validation $valid){}
 
 }
