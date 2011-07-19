@@ -104,4 +104,16 @@ class Presto_Model_User_Roles extends Model_Crud
 			->execute();
 	}
 
+	/**
+	 * Sets the validation rules.
+	 *
+	 * @param	Validation	The validation instance
+	 * @return	Validation	The validation instance with rules attached.
+	 */
+	protected function validation_rules(Validation $valid)
+	{
+		return $valid->rule('user_id', 'not_empty')
+			->rule('role_id', 'not_empty');
+	}
+
 }

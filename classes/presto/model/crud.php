@@ -255,6 +255,6 @@ abstract class Presto_Model_Crud extends Model
 	 * @param	Validation	A validation object
 	 * @return	Validation	The validtion object with the rules added
 	 */
-	abstract protected function validation_rules(Validation $valid){}
+	abstract protected function validation_rules(Validation $valid);
 
 }
