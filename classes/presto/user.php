@@ -128,4 +128,14 @@ class Presto_User
 		return $this->set($name, $value);
 	}
 
+	/**
+	 * The magic "toString" method
+	 *
+	 * @return	string	json encoded representation of this instance.
+	 */
+	public function __toString()
+	{
+		return json_encode($this->params);
+	}
+
 } // End Presto_User
