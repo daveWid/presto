@@ -10,7 +10,7 @@
  * @author		Dave Widmer
  * @copyright	2011 © Dave Widmer
  */
-class Presto_AuthQueryTest extends Kohana_Unittest_Database_TestCase
+class Presto_AuthTest extends Kohana_Unittest_Database_TestCase
 {
 	/** The auth instance used in the tests. */
 	public $auth;

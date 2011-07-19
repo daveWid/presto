@@ -7,7 +7,7 @@
  * @author		Dave Widmer
  * @copyright	2011 © Dave Widmer
  */
-class Presto_Auth_Query_Builder extends Kohana_Auth
+class Presto_Auth extends Kohana_Auth
 {
 	/**
 	 * Does the user login.
@@ -15,7 +15,7 @@ class Presto_Auth_Query_Builder extends Kohana_Auth
 	 * @param	string	$username	The username
 	 * @param	string	$password	The password (already hashed)
 	 * @param	boolean	$remember	Should the login be remembered? (autologin)
-	 * @return	boolean			Successful?
+	 * @return	boolean
 	 */
 	protected function _login($username, $password, $remember)
 	{
@@ -73,13 +73,19 @@ class Presto_Auth_Query_Builder extends Kohana_Auth
 	public function check_password($password)
 	{
 		throw new Kohana_Exception(
-			"The check_password method is not available	with the query builder auth driver."
+			"The check_password method is not available	with the presto auth driver."
 		);
 	}
 
 	/**
 	 * Check if there is an active session. Optionally allows checking for a
 	 * specific role.
+	 *
+	 *		// See if a user is logged in
+	 *		$user = $auth->logged_in();
+	 *
+	 *		// See if the user is an administrator
+	 *		$user = $auth->logged_in('admin');
 	 *
 	 * @param	mixed	$role	The role to check for (or array of roles...)
 	 * @return	boolean		If the user is logged in and has the specified role (if given)
