@@ -27,28 +27,50 @@ class Presto_Auth extends Kohana_Auth
 	}
 
 	/**
-	 * Changing the default hashing method to use Bonafide instead.
+	 * Hashing on bcrypt.
 	 *
-	 * @param	string	$str	The string to hash
-	 * @return	string		The hashed password
+	 * @see	http://php.net/manual/en/function.crypt.php
+	 * @param	string	The string to hash
+	 * @return	string	The hashed password
 	 */
 	public function hash($str)
 	{
-		$bona = Bonafide::instance();
-		return $bona->hash($str, $this->generate_salt($str));
+		return crypt($str, $this->generate_salt($str));
 	}
 
 	/**
 	 * Generates a predictable (but different for each user) salt to use
 	 * for hashing.
-	 * A salt for bcrypt is 
 	 *
-	 * @param	string	$str	The string to help with generating a salt
+	 * Bcrypt salt = "$2a$", a two digit cost parameter, "$", and 22 digits from the base64 alphabet "./0-9A-Za-z"
+	 *
+	 * @see	http://php.net/manual/en/function.crypt.php
+	 * @param	string		The string to help with generating a salt
 	 * @return	string		The salt 
 	 */
 	protected function generate_salt($str)
 	{
-		
+		$begin = "$2a$" . sprintf("%0%d", $this->config['iterations']) . "$";
+		$hash = md5($str);
+		$salt = "";
+
+		foreach ($this->config['salt'] as $pos)
+		{
+			$salt .= substr($hash, $pos, 1);
+		}
+
+		$len = strlen($string);
+		if ($len < 22)
+		{
+			$num = 22 - $len;
+			$salt .= substr($hash, 0, $num);
+		}
+		else if ($len > 22)
+		{
+			$salt = substr($salt, 0, 22);
+		}
+
+		return $begin.$salt;
 	}
 
 	/**
@@ -60,7 +82,7 @@ class Presto_Auth extends Kohana_Auth
 	public function password($username)
 	{
 		throw new Kohana_Exception(
-			"The password method is not available with the query builder driver."
+			"The password method is not available with the presto auth driver."
 		);
 	}
 
@@ -75,55 +97,6 @@ class Presto_Auth extends Kohana_Auth
 		throw new Kohana_Exception(
 			"The check_password method is not available	with the presto auth driver."
 		);
-	}
-
-	/**
-	 * Check if there is an active session. Optionally allows checking for a
-	 * specific role.
-	 *
-	 *		// See if a user is logged in
-	 *		$user = $auth->logged_in();
-	 *
-	 *		// See if the user is an administrator
-	 *		$user = $auth->logged_in('admin');
-	 *
-	 * @param	mixed	$role	The role to check for (or array of roles...)
-	 * @return	boolean		If the user is logged in and has the specified role (if given)
-	 */
-	public function logged_in($role = NULL)
-	{
-		$user = $this->get_user();
-
-		if ($user === null)
-		{
-			return false;
-		}
-
-		if ($role === null)
-		{
-			return true;
-		}
-		else
-		{
-			if(is_string($role))
-			{
-				return in_array($role, $user->roles); // just one role
-			}
-			else
-			{
-				$good = true;
-				foreach($role as $r) // Loop through a list of roles
-				{
-					if ( ! in_array($r, $user->roles))
-					{
-						$good = false;
-						break;
-					}
-				}
-
-				return $good;
-			}
-		}
 	}
 
 }

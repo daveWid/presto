@@ -2,8 +2,8 @@
 
 return array(
 	'driver'       => 'presto',
-	'hash_method'  => 'sha256',
-	'hash_key'     => NULL,
+	'iterations'  => 15,
+	'salt'			=> array(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31),
 	'lifetime'     => 1209600,
 	'session_key'  => 'auth_user'
 );
