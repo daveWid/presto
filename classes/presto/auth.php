@@ -10,6 +10,22 @@
 class Presto_Auth extends Kohana_Auth
 {
 	/**
+	 * @var Model_Users	The model used to do the login
+	 */
+	public $model;
+
+	/**
+	 * Sets the model and loads config and session data.
+	 *
+	 * @return  void
+	 */
+	public function __construct($config = array())
+	{
+		$this->model = new Model_Users;
+		parent::__construct($config);
+	}
+
+	/**
 	 * Does the user login.
 	 *
 	 * @param	string	$username	The username
@@ -19,11 +35,18 @@ class Presto_Auth extends Kohana_Auth
 	 */
 	protected function _login($username, $password, $remember)
 	{
-		$user = Model::factory('users')->login($username, $password);
+		$user = $this->model->login($username, $password);
 
-		return ($user !== false) ?
-			$this->complete_login($user) :
-			false ;
+		// Check to see if there was a user
+		if (count($user) === 1)
+		{
+			$this->complete_login(new Admin_User((array) $user->current()));
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -70,7 +93,7 @@ class Presto_Auth extends Kohana_Auth
 			$salt = substr($salt, 0, 22);
 		}
 
-		return $begin.$salt;
+		return $begin.$salt."$";
 	}
 
 	/**
