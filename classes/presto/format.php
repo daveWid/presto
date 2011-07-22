@@ -16,7 +16,7 @@ class Presto_Format
 	 * @param	string	sprintf pattern
 	 * @return	string	Formatted phone number
 	 */
-	public static function phone($number, $pattern = '(%d) %d-%d')
+	public static function phone($number, $pattern = '(%03d) %03d-%04d')
 	{
 		$number = preg_replace('/[^\d]/', '', $number);
 
@@ -27,9 +27,9 @@ class Presto_Format
 				$number = substr($number, 1);
 			case 10:
 				return sprintf($pattern,
-						substr($number, 0, 3),
-						substr($number, 3, 3),
-						substr($number, 6)
+					substr($number, 0, 3),
+					substr($number, 3, 3),
+					substr($number, 6)
 				);
 				break;
 			default:
