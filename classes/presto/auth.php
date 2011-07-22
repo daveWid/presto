@@ -40,7 +40,7 @@ class Presto_Auth extends Kohana_Auth
 		// Check to see if there was a user
 		if (count($user) === 1)
 		{
-			$this->complete_login(new Admin_User((array) $user->current()));
+			$this->complete_login(new Presto_User((array) $user->current()));
 			return true;
 		}
 		else
@@ -73,27 +73,27 @@ class Presto_Auth extends Kohana_Auth
 	 */
 	protected function generate_salt($str)
 	{
-		$begin = "$2a$" . sprintf("%0%d", $this->config['iterations']) . "$";
+		$begin = "$2a$" . sprintf("%02d", $this->_config->iterations) . "$";
 		$hash = md5($str);
-		$salt = "";
+		$salt = array();
 
-		foreach ($this->config['salt'] as $pos)
+		foreach ($this->_config->salt as $pos)
 		{
-			$salt .= substr($hash, $pos, 1);
+			$salt[] = substr($hash, $pos, 1);
 		}
 
-		$len = strlen($string);
+		$len = count($salt);
 		if ($len < 22)
 		{
 			$num = 22 - $len;
-			$salt .= substr($hash, 0, $num);
+			$salt[] = substr($hash, 0, $num);
 		}
 		else if ($len > 22)
 		{
-			$salt = substr($salt, 0, 22);
+			$salt = array_slice($salt, 0, 22);
 		}
 
-		return $begin.$salt."$";
+		return $begin.implode("", $salt)."$";
 	}
 
 	/**
