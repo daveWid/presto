@@ -182,7 +182,7 @@ abstract class Presto_Model_Crud extends Model
 			// If not an array of arrays, then it needs to be normalized
 			if ( ! is_array($where[0]))
 			{
-				$where = array($where[0], $where[1], $where[2]);
+				$where = array(array($where[0], $where[1], $where[2]));
 			}
 
 			foreach ($where as $w)
