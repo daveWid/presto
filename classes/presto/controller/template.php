@@ -4,9 +4,9 @@
  * The Presto Template controller.
  * This will be used by all view that need to be wrapped into the template.
  *
- * @package		Presto
- * @author		Dave Widmer
- * @copyright	2011 © Dave Widmer
+ * @package    Presto
+ * @author     Dave Widmer
+ * @copyright  2011 © Dave Widmer
  */
 class Presto_Controller_Template extends Kohana_Controller_Template
 {
