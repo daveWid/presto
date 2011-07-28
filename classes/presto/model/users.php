@@ -181,16 +181,16 @@ class Presto_Model_Users extends Model_Crud
 	 * Changes the password for the given user.
 	 *
 	 * @param	int		The user id of the password to change
-	 * @param	string	The new password
-	 * @param	string	The current password (if changing from the users account)
+	 * @param	array	Password data
 	 * @return	int		Affected rows
 	 * @return	boolean	False if the current password is incorrect
 	 */
-	public function change_password($id, $pass, $current = null)
+	public function change_password($id, $data)
 	{
 		$user = $this->read($id);
 
 		// Check to make sure the current password is right...
+		$current = Arr::get($data, 'current_password', null);
 		if ($current !== null)
 		{
 			if ( ! $this->check_password($id, $current))
@@ -199,8 +199,8 @@ class Presto_Model_Users extends Model_Crud
 			}
 		}
 
-		$data = array('password' => Auth::instance()->hash($pass));
-		return $this->update($id, $data);
+		$data['password'] = Auth::instance()->hash($data['password']);
+		return $this->update($id, $data, false);
 	}
 
 	/**
