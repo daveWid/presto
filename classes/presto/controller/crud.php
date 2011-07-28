@@ -98,19 +98,15 @@ class Presto_Controller_Crud extends Controller_Auth
 			list($id, $num) = $result;
 			$this->success($id, $num);
 		}
+		else if ($result === false)
+		{
+			$this->failed_validation();
+		}
 		else
 		{
-			switch ($result)
-			{
-				case 1:
-					$this->success($this->request->param('id'), $result);
-					break;
-				case 0:
-					$this->no_change();
-					break;
-				default:
-					$this->failed_validation();
-			}
+			($result === 0) ?
+				$this->no_change() :
+				$this->success($this->request->param('id'), $result);
 		}
 	}
 
