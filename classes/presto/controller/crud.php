@@ -23,7 +23,7 @@ class Presto_Controller_Crud extends Controller_Auth
 	{
 		$this->title = "View";
 		$this->content = View::factory("{$this->request->controller()}/view")->set(array(
-			'data' => $this->model->fecth(),
+			'data' => $this->model->fetch(),
 		));
 	}
 
