@@ -22,7 +22,9 @@ class Presto_Controller_Crud extends Controller_Auth
 	public function action_index()
 	{
 		$this->title = "View";
-		$this->content = View::factory("{$this->request->controller()}/view");
+		$this->content = View::factory("{$this->request->controller()}/view")->set(array(
+			'data' => $this->model->fecth(),
+		));
 	}
 
 	/**
