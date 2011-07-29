@@ -120,7 +120,7 @@ class Presto_Controller_Crud extends Controller_Auth
 	 */
 	protected function success($id, $num)
 	{
-		$msg = Kohana::message($this->model, "{$this->request->action()}.success");
+		$msg = Kohana::message($this->request->controller(), "{$this->request->action()}.success");
 		$this->prep_response(true, Message::SUCCESS, $msg);
 	}
 
@@ -129,7 +129,7 @@ class Presto_Controller_Crud extends Controller_Auth
 	 */
 	protected function no_change()
 	{
-		$msg = Kohana::message($this->model, "{$this->request->action()}.no_change");
+		$msg = Kohana::message($this->request->controller(), "{$this->request->action()}.no_change");
 		$this->prep_response(false, Message::WARN, $msg);
 	}
 
