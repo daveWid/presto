@@ -72,7 +72,7 @@ class Presto_Controller_Crud extends Controller_Auth
 	/**
 	 * Delete
 	 */
-	public function delete()
+	public function action_delete()
 	{
 		$id = $this->request->param("id");
 		$result = $this->model->delete($id);
