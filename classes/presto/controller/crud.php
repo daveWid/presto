@@ -59,7 +59,7 @@ class Presto_Controller_Crud extends Controller_Auth
 		}
 		else
 		{
-			$_POST = $this->model->read($id);
+			$_POST = (array) $this->model->read($id);
 		}
 
 		if ( ! $this->content)
