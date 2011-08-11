@@ -79,7 +79,7 @@ class Presto_Model_Users extends Model_Crud
 	 * @param	boolean	Do we need to check the current password?
 	 * @return	boolean	Validation success
 	 */
-	public function validate_passwords(array $data, $current)
+	public function validate_passwords(array $data, $current = null)
 	{
 		// Setup a new validation instance if this one doesn't exist.
 		if ($this->validation === null)
