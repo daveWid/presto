@@ -140,6 +140,7 @@ abstract class Presto_Model_Crud extends Model
 	 *
 	 * Param  | Description                  | Default
 	 * -------|------------------------------|-------
+	 * order  | The column to order on       | primary key
 	 * dir    | The direction to sort on     | DESC
 	 * limit  | The number of rows to return | null (all rows)
 	 * offset | The db offset                | 0
@@ -167,7 +168,7 @@ abstract class Presto_Model_Crud extends Model
 			$query = DB::select()->from($this->table);
 		}
 
-		$query = $query->order_by($this->primary, Arr::get($params, 'dir', 'DESC'));
+		$query = $query->order_by(Arr::get($params, "order", $this->primary), Arr::get($params, 'dir', 'DESC'));
 
 		// Check to see if only a number of posts are requested, or all...
 		$limit = Arr::get($params, 'limit', null);
