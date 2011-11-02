@@ -35,6 +35,41 @@ abstract class Presto_Model_Crud extends Model
 	protected $fields = array();
 
 	/**
+	 * Saves the data to the database. If the primary key is present, then 
+	 * the data will be updated, otherwise it will be added.
+	 *
+	 * @param   array   The data to save
+	 * @return  array   The response array which is 'success' => boolean,
+	 *                  'body' => primary_key, 'action' => '(add|edit)'
+	 */
+	public function save(array $data)
+	{
+		$response = array();
+
+		$id = Arr::get($data, $this->primary, FALSE);
+		if ($id)
+		{
+			$response['action'] = 'edit';
+
+			unset($data[$this->primary]);
+			$num = $this->update($id, $data);
+
+			$response['body'] = $id;
+			$response['success'] = ($num !== false);
+		}
+		else
+		{
+			$response['action'] = 'add';
+			list($id, $num) = $this->create($data);
+
+			$response['success'] = ($num > 0);
+			$response['body'] = $id;
+		}
+
+		return $response;
+	}
+
+	/**
 	 * Inserts a new row.
 	 * Data is automatically filtered and checked for validation.
 	 *
